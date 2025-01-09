@@ -1,25 +1,11 @@
 import React from "react";
 import { getValidMoves } from "../utils/moveValidation";
 
-function Chessboard({ gameState, setGameState }) {
+function Chessboard({ gameState, setGameState, onCapture }) {
   const [board, setBoard] = React.useState(initializeBoard());
   const [validMoves, setValidMoves] = React.useState([]);
   const [boardSize, setBoardSize] = React.useState(0);
   const boardRef = React.useRef(null);
-
-  React.useEffect(() => {
-    const updateBoardSize = () => {
-      if (boardRef.current) {
-        const containerWidth = boardRef.current.offsetWidth;
-        setBoardSize(containerWidth);
-      }
-    };
-
-    updateBoardSize();
-    window.addEventListener("resize", updateBoardSize);
-    return () => window.removeEventListener("resize", updateBoardSize);
-  }, []);
-
   function initializeBoard() {
     const initialBoard = Array(8)
       .fill()
@@ -72,8 +58,22 @@ function Chessboard({ gameState, setGameState }) {
       if (isValidMove) {
         const newBoard = [...board];
         const { row: fromRow, col: fromCol } = gameState.selectedPiece;
+        const movingPiece = newBoard[fromRow][fromCol];
+        const targetPiece = newBoard[row][col];
 
-        newBoard[row][col] = newBoard[fromRow][fromCol];
+        // Handle capture
+        if (targetPiece) {
+          onCapture(
+            {
+              type: targetPiece.type,
+              color: targetPiece.color,
+            },
+            gameState.isWhiteTurn ? "white" : "black"
+          );
+        }
+
+        // Move piece
+        newBoard[row][col] = movingPiece;
         newBoard[fromRow][fromCol] = null;
 
         setBoard(newBoard);
@@ -90,18 +90,9 @@ function Chessboard({ gameState, setGameState }) {
     }
   };
 
-  const getPieceSize = () => {
-    if (boardSize <= 350) return "text-2xl";
-    if (boardSize <= 500) return "text-3xl";
-    return "text-4xl";
-  };
-
   return (
-    <div
-      ref={boardRef}
-      className="w-full bg-white rounded-lg shadow-lg p-2 sm:p-4"
-    >
-      <div className="grid grid-cols-8 gap-0.5 sm:gap-1 aspect-square">
+    <div className="aspect-square bg-white rounded-lg shadow-lg p-4">
+      <div className="grid grid-cols-8 gap-1 h-full">
         {board.map((row, rowIndex) =>
           row.map((piece, colIndex) => {
             const isLight = (rowIndex + colIndex) % 2 === 0;
@@ -121,14 +112,12 @@ function Chessboard({ gameState, setGameState }) {
                   ${isSelected ? "ring-2 ring-blue-500" : ""}
                   ${isValidMove ? "ring-2 ring-green-500" : ""}
                   cursor-pointer
-                  transition-colors duration-200
-                  hover:opacity-90
                 `}
                 onClick={() => handleSquareClick(rowIndex, colIndex)}
               >
                 {piece && (
                   <div
-                    className={`${getPieceSize()} ${
+                    className={`text-4xl ${
                       piece.color === "white" ? "text-white" : "text-black"
                     }`}
                   >

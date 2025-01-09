@@ -9,6 +9,10 @@ function App() {
     isWhiteTurn: true,
     status: "playing", // 'playing', 'check', 'checkmate', 'stalemate'
     selectedPiece: null,
+    capturedPieces: {
+      white: [], // pieces captured by white
+      black: [], // pieces captured by black
+    },
   });
 
   const handleNewGame = () => {
@@ -16,7 +20,21 @@ function App() {
       isWhiteTurn: true,
       status: "playing",
       selectedPiece: null,
+      capturedPieces: {
+        white: [],
+        black: [],
+      },
     });
+  };
+
+  const handleCapture = (capturedPiece, capturedBy) => {
+    setGameState((prevState) => ({
+      ...prevState,
+      capturedPieces: {
+        ...prevState.capturedPieces,
+        [capturedBy]: [...prevState.capturedPieces[capturedBy], capturedPiece],
+      },
+    }));
   };
 
   return (
@@ -34,7 +52,11 @@ function App() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           <div className="lg:col-span-2">
-            <Chessboard gameState={gameState} setGameState={setGameState} />
+            <Chessboard
+              gameState={gameState}
+              setGameState={setGameState}
+              onCapture={handleCapture}
+            />
           </div>
           <div className="w-full">
             <GameStatus gameState={gameState} />
