@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { Button } from "@/components/ui/button";
+import Chessboard from "./components/Chessboard";
+import GameStatus from "./components/GameStatus";
+import RulesModal from "./components/RulesModal";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [gameState, setGameState] = React.useState({
+    isWhiteTurn: true,
+    status: "playing", // 'playing', 'check', 'checkmate', 'stalemate'
+    selectedPiece: null,
+  });
+
+  const handleNewGame = () => {
+    setGameState({
+      isWhiteTurn: true,
+      status: "playing",
+      selectedPiece: null,
+    });
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-4 sm:mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+            Chess Game
+          </h1>
+          <div className="flex gap-2 sm:gap-4">
+            <Button onClick={handleNewGame}>New Game</Button>
+            <RulesModal />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+          <div className="lg:col-span-2">
+            <Chessboard gameState={gameState} setGameState={setGameState} />
+          </div>
+          <div className="w-full">
+            <GameStatus gameState={gameState} />
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
