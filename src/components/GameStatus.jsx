@@ -41,7 +41,6 @@ function GameStatus({ gameState }) {
   const calculateTotalValue = (pieces) => {
     return pieces.reduce((sum, piece) => sum + getCaptureValue(piece), 0);
   };
-  console.log("gameState", gameState);
   return (
     <Card className="w-full h-full">
       <CardHeader className="p-4 sm:p-6">

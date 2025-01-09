@@ -28,13 +28,19 @@ function App() {
   };
 
   const handleCapture = (capturedPiece, capturedBy) => {
-    setGameState((prevState) => ({
-      ...prevState,
-      capturedPieces: {
-        ...prevState.capturedPieces,
-        [capturedBy]: [...prevState.capturedPieces[capturedBy], capturedPiece],
-      },
-    }));
+    setGameState((prevState) => {
+      const newState = {
+        ...prevState,
+        capturedPieces: {
+          ...prevState.capturedPieces,
+          [capturedBy]: [
+            ...prevState.capturedPieces[capturedBy],
+            capturedPiece,
+          ],
+        },
+      };
+      return newState;
+    });
   };
 
   return (

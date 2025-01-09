@@ -46,7 +46,10 @@ function Chessboard({ gameState, setGameState, onCapture }) {
     ) {
       const moves = getValidMoves(board, row, col, piece);
       setValidMoves(moves);
-      setGameState({ ...gameState, selectedPiece: { row, col } });
+      setGameState((gameState) => ({
+        ...gameState,
+        selectedPiece: { row, col },
+      }));
       return;
     }
 
@@ -78,14 +81,14 @@ function Chessboard({ gameState, setGameState, onCapture }) {
 
         setBoard(newBoard);
         setValidMoves([]);
-        setGameState({
+        setGameState((gameState) => ({
           ...gameState,
           isWhiteTurn: !gameState.isWhiteTurn,
           selectedPiece: null,
-        });
+        }));
       } else {
         setValidMoves([]);
-        setGameState({ ...gameState, selectedPiece: null });
+        setGameState((gameState) => ({ ...gameState, selectedPiece: null }));
       }
     }
   };
