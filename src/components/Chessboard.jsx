@@ -4,7 +4,6 @@ import { getValidMoves } from "../utils/moveValidation";
 function Chessboard({ gameState, setGameState, onCapture }) {
   const [board, setBoard] = React.useState(initializeBoard());
   const [validMoves, setValidMoves] = React.useState([]);
-  const [boardSize, setBoardSize] = React.useState(0);
   const boardRef = React.useRef(null);
   function initializeBoard() {
     const initialBoard = Array(8)
@@ -94,43 +93,45 @@ function Chessboard({ gameState, setGameState, onCapture }) {
   };
 
   return (
-    <div className="aspect-square bg-white rounded-lg shadow-lg p-4">
-      <div className="grid grid-cols-8 gap-1 h-full">
-        {board.map((row, rowIndex) =>
-          row.map((piece, colIndex) => {
-            const isLight = (rowIndex + colIndex) % 2 === 0;
-            const isSelected =
-              gameState.selectedPiece?.row === rowIndex &&
-              gameState.selectedPiece?.col === colIndex;
-            const isValidMove = validMoves.some(
-              (move) => move.row === rowIndex && move.col === colIndex
-            );
+    <div className="w-full max-w-[80vh] mx-auto">
+      <div className="aspect-square bg-white rounded-lg shadow-lg p-4">
+        <div className="grid grid-cols-8 gap-1 h-full">
+          {board.map((row, rowIndex) =>
+            row.map((piece, colIndex) => {
+              const isLight = (rowIndex + colIndex) % 2 === 0;
+              const isSelected =
+                gameState.selectedPiece?.row === rowIndex &&
+                gameState.selectedPiece?.col === colIndex;
+              const isValidMove = validMoves.some(
+                (move) => move.row === rowIndex && move.col === colIndex
+              );
 
-            return (
-              <div
-                key={`${rowIndex}-${colIndex}`}
-                className={`
-                  aspect-square flex items-center justify-center
-                  ${isLight ? "bg-amber-100" : "bg-amber-800"}
-                  ${isSelected ? "ring-2 ring-blue-500" : ""}
-                  ${isValidMove ? "ring-2 ring-green-500" : ""}
-                  cursor-pointer
-                `}
-                onClick={() => handleSquareClick(rowIndex, colIndex)}
-              >
-                {piece && (
-                  <div
-                    className={`text-4xl ${
-                      piece.color === "white" ? "text-white" : "text-black"
-                    }`}
-                  >
-                    {getPieceSymbol(piece.type)}
-                  </div>
-                )}
-              </div>
-            );
-          })
-        )}
+              return (
+                <div
+                  key={`${rowIndex}-${colIndex}`}
+                  className={`
+                    aspect-square flex items-center justify-center
+                    ${isLight ? "bg-amber-100" : "bg-amber-800"}
+                    ${isSelected ? "ring-2 ring-blue-500" : ""}
+                    ${isValidMove ? "ring-2 ring-green-500" : ""}
+                    cursor-pointer
+                  `}
+                  onClick={() => handleSquareClick(rowIndex, colIndex)}
+                >
+                  {piece && (
+                    <div
+                      className={`text-2xl sm:text-3xl md:text-4xl ${
+                        piece.color === "white" ? "text-white" : "text-black"
+                      }`}
+                    >
+                      {getPieceSymbol(piece.type)}
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
       </div>
     </div>
   );

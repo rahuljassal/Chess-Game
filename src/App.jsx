@@ -28,35 +28,29 @@ function App() {
   };
 
   const handleCapture = (capturedPiece, capturedBy) => {
-    setGameState((prevState) => {
-      const newState = {
-        ...prevState,
-        capturedPieces: {
-          ...prevState.capturedPieces,
-          [capturedBy]: [
-            ...prevState.capturedPieces[capturedBy],
-            capturedPiece,
-          ],
-        },
-      };
-      return newState;
-    });
+    setGameState((prevState) => ({
+      ...prevState,
+      capturedPieces: {
+        ...prevState.capturedPieces,
+        [capturedBy]: [...prevState.capturedPieces[capturedBy], capturedPiece],
+      },
+    }));
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 md:p-8">
+    <div className="min-h-screen bg-gray-100 p-4">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-4 sm:mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+        <div className="mb-4 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
             Chess Game
           </h1>
-          <div className="flex gap-2 sm:gap-4">
+          <div className="flex gap-2">
             <Button onClick={handleNewGame}>New Game</Button>
             <RulesModal />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
             <Chessboard
               gameState={gameState}
