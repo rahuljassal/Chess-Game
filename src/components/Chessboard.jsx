@@ -6,8 +6,6 @@ import { isKingInCheck, isCheckmate } from "../utils/checkDetection";
 function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
   // State for tracking valid moves for selected piece
   const [validMoves, setValidMoves] = React.useState([]);
-  // Ref for the chessboard element
-  const boardRef = React.useRef(null);
 
   // Handler for clicking on a square
   const handleSquareClick = (row, col) => {
