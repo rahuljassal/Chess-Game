@@ -29,7 +29,7 @@ function GameStatus({ gameState }) {
           </div>
 
           {/* Game status indicator (shows only when game is not in progress) */}
-          {gameState.status !== "playing" && (
+          {/* {gameState.status !== "playing" && (
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
               <span className="font-medium">Status:</span>
               <span className="px-3 py-1 rounded-full bg-red-100 text-red-800 text-sm sm:text-base">
@@ -37,7 +37,7 @@ function GameStatus({ gameState }) {
                   gameState.status.slice(1)}
               </span>
             </div>
-          )}
+          )} */}
 
           {gameState.status === "check" && (
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mt-4">
