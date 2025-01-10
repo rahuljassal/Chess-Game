@@ -92,7 +92,7 @@ function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
                     aspect-square flex items-center justify-center
                     ${isLight ? "bg-amber-100" : "bg-amber-800"}
                     ${isSelected ? "ring-2 ring-blue-500" : ""}
-                    ${isValidMove ? "ring-2 ring-green-500" : ""}
+                    ${isValidMove ? "ring-2 ring-green-500 bg-green-200" : ""}
                     cursor-pointer
                   `}
                   onClick={() => handleSquareClick(rowIndex, colIndex)}
