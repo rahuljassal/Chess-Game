@@ -1,4 +1,7 @@
-export function getValidMoves(board, row, col, piece) {
+import { isKingInCheck } from "./checkDetection";
+
+// Add this function to get raw moves without check validation
+export function getRawValidMoves(board, row, col, piece) {
   switch (piece.type) {
     case "pawn":
       return getPawnMoves(board, row, col, piece.color);
@@ -15,6 +18,21 @@ export function getValidMoves(board, row, col, piece) {
     default:
       return [];
   }
+}
+
+// Modify the existing getValidMoves function
+export function getValidMoves(board, row, col, piece, checkForCheck = true) {
+  const moves = getRawValidMoves(board, row, col, piece);
+
+  if (!checkForCheck) return moves;
+
+  // Filter out moves that would put/leave own king in check
+  return moves.filter((move) => {
+    const tempBoard = board.map((row) => [...row]);
+    tempBoard[move.row][move.col] = piece;
+    tempBoard[row][col] = null;
+    return !isKingInCheck(tempBoard, piece.color, true);
+  });
 }
 
 function getPawnMoves(board, row, col, color) {

@@ -83,6 +83,24 @@ function GameStatus({ gameState }) {
             </div>
           )}
 
+          {gameState.status === "check" && (
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mt-4">
+              <span className="font-medium">Status:</span>
+              <span className="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-sm sm:text-base">
+                Check!
+              </span>
+            </div>
+          )}
+
+          {gameState.status === "checkmate" && (
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mt-4">
+              <span className="font-medium">Status:</span>
+              <span className="px-3 py-1 rounded-full bg-red-100 text-red-800 text-sm sm:text-base">
+                Checkmate! {gameState.isWhiteTurn ? "Black" : "White"} wins!
+              </span>
+            </div>
+          )}
+
           {/* Captured pieces section */}
           <div className="mt-6">
             <h3 className="font-medium mb-3">Captured Pieces</h3>

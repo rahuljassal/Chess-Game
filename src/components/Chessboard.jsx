@@ -1,6 +1,7 @@
 import React from "react";
 import { getValidMoves } from "../utils/moveValidation";
 import { getPieceSymbol } from "../utils/getPieceSymbol";
+import { isKingInCheck, isCheckmate } from "../utils/checkDetection";
 
 function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
   // State for tracking valid moves for selected piece
@@ -59,11 +60,25 @@ function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
         // Update game state after move
         setBoard(newBoard);
         setValidMoves([]);
-        setGameState((gameState) => ({
-          ...gameState,
-          isWhiteTurn: !gameState.isWhiteTurn,
-          selectedPiece: null,
-        }));
+        setGameState((prevState) => {
+          const newTurn = !prevState.isWhiteTurn;
+          const nextColor = newTurn ? "white" : "black";
+
+          // Check for check and checkmate
+          const isInCheck = isKingInCheck(newBoard, nextColor);
+          const isInCheckmate = isInCheck && isCheckmate(newBoard, nextColor);
+
+          return {
+            ...prevState,
+            isWhiteTurn: newTurn,
+            selectedPiece: null,
+            status: isInCheckmate
+              ? "checkmate"
+              : isInCheck
+              ? "check"
+              : "playing",
+          };
+        });
       } else {
         // Deselect piece if clicking on invalid square
         setValidMoves([]);
