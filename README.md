@@ -32,17 +32,19 @@ A fully-featured chess game built with React, featuring a complete implementatio
 ### Installation
 
 1. Clone the repository
-   bash
-   git clone https://github.com/yourusername/chess-game.git
+   ```
+   git clone https://github.com/rahuljassal/chess-game.git
    cd chess-game
+   ```
 
 2. Install dependencies
-   bash
+   ```
    npm install
-3. Start the development server
-   bash
+   ```
+4. Start the development server
+   ```
    npm run dev
-
+   ```
 The application will be available at `http://localhost:5173`
 
 ## Game Rules
@@ -55,7 +57,7 @@ The application will be available at `http://localhost:5173`
 - A piece can capture an opponent's piece by moving to its square
 - The game ends when there is a checkmate or a draw
 
-### Special Moves
+### Special Moves (to be implemented)
 
 - Castling
 - En Passant
@@ -64,12 +66,6 @@ The application will be available at `http://localhost:5173`
 ### Win Conditions
 
 - Checkmate
-- Resignation
-- Draw by agreement
-- Stalemate
-- Insufficient material
-- Threefold repetition
-- Fifty-move rule
 
 ## Contributing
 
@@ -83,8 +79,3 @@ The application will be available at `http://localhost:5173`
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Acknowledgments
-
-- Chess piece images from [source]
-- UI components from [shadcn/ui](https://ui.shadcn.com/)
-- Radix UI for accessible component primitives
