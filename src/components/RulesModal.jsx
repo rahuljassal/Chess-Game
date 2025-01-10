@@ -1,4 +1,5 @@
 import React from "react";
+// Import UI components from shadcn/ui
 import {
   Dialog,
   DialogContent,
@@ -12,16 +13,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function RulesModal() {
   return (
+    // Modal dialog for chess rules
     <Dialog>
+      {/* Button to trigger the modal */}
       <DialogTrigger asChild>
         <Button variant="outline">Rules</Button>
       </DialogTrigger>
+
+      {/* Modal content container with responsive sizing */}
       <DialogContent className="w-[95vw] max-w-2xl h-[90vh]">
         <DialogHeader>
           <DialogTitle className="text-xl sm:text-2xl">Chess Rules</DialogTitle>
         </DialogHeader>
 
+        {/* Tabbed interface for different rule categories */}
         <Tabs defaultValue="basics" className="w-full h-full">
+          {/* Tab navigation */}
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="basics">Basics</TabsTrigger>
             <TabsTrigger value="pieces">Pieces</TabsTrigger>
@@ -29,9 +36,12 @@ function RulesModal() {
             <TabsTrigger value="conditions">Game Conditions</TabsTrigger>
           </TabsList>
 
+          {/* Scrollable content area */}
           <ScrollArea className="h-[calc(90vh-8rem)] mt-2">
+            {/* Game Conditions Tab */}
             <TabsContent value="conditions" className="p-4">
               <div className="space-y-6">
+                {/* Check rules section */}
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Check</h3>
                   <p>
@@ -45,6 +55,7 @@ function RulesModal() {
                   </ul>
                 </div>
 
+                {/* Checkmate rules section */}
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Checkmate</h3>
                   <p>Checkmate occurs when:</p>
@@ -70,6 +81,7 @@ function RulesModal() {
                   </ul>
                 </div>
 
+                {/* Stalemate rules section */}
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Stalemate</h3>
                   <p>A stalemate occurs when:</p>
@@ -80,6 +92,7 @@ function RulesModal() {
                   </ul>
                 </div>
 
+                {/* Insufficient Material rules section */}
                 <div>
                   <h3 className="text-lg font-semibold mb-2">
                     Insufficient Material
@@ -98,6 +111,7 @@ function RulesModal() {
                   </ul>
                 </div>
 
+                {/* Threefold Repetition rules section */}
                 <div>
                   <h3 className="text-lg font-semibold mb-2">
                     Threefold Repetition
@@ -113,6 +127,7 @@ function RulesModal() {
                   </ul>
                 </div>
 
+                {/* Fifty-Move Rule section */}
                 <div>
                   <h3 className="text-lg font-semibold mb-2">
                     Fifty-Move Rule
@@ -125,8 +140,11 @@ function RulesModal() {
                 </div>
               </div>
             </TabsContent>
+
+            {/* Basics Tab */}
             <TabsContent value="basics" className="p-4">
               <div className="space-y-4">
+                {/* Game Overview section */}
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Game Overview</h3>
                   <p>
@@ -137,6 +155,7 @@ function RulesModal() {
                   </p>
                 </div>
 
+                {/* Objective section */}
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Objective</h3>
                   <p>
@@ -146,6 +165,7 @@ function RulesModal() {
                   </p>
                 </div>
 
+                {/* Basic Rules section */}
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Basic Rules</h3>
                   <ul className="list-disc pl-6 space-y-2">
@@ -165,8 +185,10 @@ function RulesModal() {
               </div>
             </TabsContent>
 
+            {/* Pieces Tab */}
             <TabsContent value="pieces" className="p-4">
               <div className="space-y-6">
+                {/* Individual piece movement rules */}
                 <div>
                   <h3 className="text-lg font-semibold mb-2">King (♔)</h3>
                   <p>
@@ -216,8 +238,10 @@ function RulesModal() {
               </div>
             </TabsContent>
 
+            {/* Special Rules Tab */}
             <TabsContent value="special" className="p-4">
               <div className="space-y-6">
+                {/* Special move rules sections */}
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Castling</h3>
                   <p>

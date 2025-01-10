@@ -2,17 +2,22 @@ import React from "react";
 import { getValidMoves } from "../utils/moveValidation";
 
 function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
+  // State for tracking valid moves for selected piece
   const [validMoves, setValidMoves] = React.useState([]);
+  // Ref for the chessboard element
   const boardRef = React.useRef(null);
 
+  // Handler for clicking on a square
   const handleSquareClick = (row, col) => {
     const piece = board[row][col];
 
+    // Case 1: Selecting a piece to move
     if (
       !gameState.selectedPiece &&
       piece &&
       piece.color === (gameState.isWhiteTurn ? "white" : "black")
     ) {
+      // Calculate and show valid moves for selected piece
       const moves = getValidMoves(board, row, col, piece);
       setValidMoves(moves);
       setGameState((gameState) => ({
@@ -22,7 +27,9 @@ function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
       return;
     }
 
+    // Case 2: Moving a selected piece
     if (gameState.selectedPiece) {
+      // Check if the target square is a valid move
       const isValidMove = validMoves.some(
         (move) => move.row === row && move.col === col
       );
@@ -33,7 +40,7 @@ function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
         const movingPiece = newBoard[fromRow][fromCol];
         const targetPiece = newBoard[row][col];
 
-        // Handle capture
+        // Handle capture if there's a piece on the target square
         if (targetPiece) {
           onCapture(
             {
@@ -44,10 +51,11 @@ function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
           );
         }
 
-        // Move piece
+        // Update board with the move
         newBoard[row][col] = movingPiece;
         newBoard[fromRow][fromCol] = null;
 
+        // Update game state after move
         setBoard(newBoard);
         setValidMoves([]);
         setGameState((gameState) => ({
@@ -56,6 +64,7 @@ function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
           selectedPiece: null,
         }));
       } else {
+        // Deselect piece if clicking on invalid square
         setValidMoves([]);
         setGameState((gameState) => ({ ...gameState, selectedPiece: null }));
       }

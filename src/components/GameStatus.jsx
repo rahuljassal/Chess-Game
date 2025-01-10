@@ -2,7 +2,9 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 function GameStatus({ gameState }) {
+  // Convert piece type to Unicode chess symbol
   const getPieceSymbol = (piece) => {
+    // Map of piece types to their Unicode symbols for both colors
     const symbols = {
       pawn: piece.color === "white" ? "♙" : "♟",
       knight: piece.color === "white" ? "♘" : "♞",
@@ -14,6 +16,7 @@ function GameStatus({ gameState }) {
     return symbols[piece.type];
   };
 
+  // Get standard chess piece values for material advantage calculation
   const getCaptureValue = (piece) => {
     const values = {
       pawn: 1,
@@ -21,26 +24,32 @@ function GameStatus({ gameState }) {
       bishop: 3,
       rook: 5,
       queen: 9,
-      king: 0,
+      king: 0, // King's value not counted in material advantage
     };
     return values[piece.type];
   };
 
+  // Calculate the overall material advantage between players
   const calculateMaterialAdvantage = () => {
+    // Sum up the value of white's captures
     const whiteCaptureValue = gameState.capturedPieces.white.reduce(
       (sum, piece) => sum + getCaptureValue(piece),
       0
     );
+    // Sum up the value of black's captures
     const blackCaptureValue = gameState.capturedPieces.black.reduce(
       (sum, piece) => sum + getCaptureValue(piece),
       0
     );
+    // Return the difference (positive means white advantage)
     return whiteCaptureValue - blackCaptureValue;
   };
 
+  // Calculate total material value for a set of captured pieces
   const calculateTotalValue = (pieces) => {
     return pieces.reduce((sum, piece) => sum + getCaptureValue(piece), 0);
   };
+
   return (
     <Card className="w-full h-full">
       <CardHeader className="p-4 sm:p-6">
@@ -48,6 +57,7 @@ function GameStatus({ gameState }) {
       </CardHeader>
       <CardContent className="p-4 sm:p-6">
         <div className="space-y-4">
+          {/* Current turn indicator */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
             <span className="font-medium">Current Turn:</span>
             <span
@@ -61,6 +71,7 @@ function GameStatus({ gameState }) {
             </span>
           </div>
 
+          {/* Game status indicator (shows only when game is not in progress) */}
           {gameState.status !== "playing" && (
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
               <span className="font-medium">Status:</span>
@@ -71,13 +82,15 @@ function GameStatus({ gameState }) {
             </div>
           )}
 
+          {/* Captured pieces section */}
           <div className="mt-6">
             <h3 className="font-medium mb-3">Captured Pieces</h3>
             <div className="grid grid-cols-1 gap-4">
-              {/* White's captured pieces */}
+              {/* White's captured pieces display */}
               <div className="bg-white rounded-lg p-4 border">
                 <div className="flex justify-between items-center mb-2">
                   <h4 className="text-sm text-gray-600">White's Captures:</h4>
+                  {/* Show total value of white's captures */}
                   {gameState.capturedPieces.white.length > 0 && (
                     <span className="text-sm text-gray-600">
                       +{calculateTotalValue(gameState.capturedPieces.white)}
@@ -85,11 +98,13 @@ function GameStatus({ gameState }) {
                   )}
                 </div>
                 <div className="min-h-12 flex flex-wrap gap-2">
+                  {/* Display white's captured pieces as symbols */}
                   {gameState.capturedPieces.white.map((piece, index) => (
                     <span key={index} className="text-2xl">
                       {getPieceSymbol(piece)}
                     </span>
                   ))}
+                  {/* Show placeholder when no captures */}
                   {gameState.capturedPieces.white.length === 0 && (
                     <span className="text-gray-400 text-sm">
                       No captures yet
@@ -98,10 +113,11 @@ function GameStatus({ gameState }) {
                 </div>
               </div>
 
-              {/* Black's captured pieces */}
+              {/* Black's captured pieces display */}
               <div className="bg-white rounded-lg p-4 border">
                 <div className="flex justify-between items-center mb-2">
                   <h4 className="text-sm text-gray-600">Black's Captures:</h4>
+                  {/* Show total value of black's captures */}
                   {gameState.capturedPieces.black.length > 0 && (
                     <span className="text-sm text-gray-600">
                       +{calculateTotalValue(gameState.capturedPieces.black)}
@@ -109,11 +125,13 @@ function GameStatus({ gameState }) {
                   )}
                 </div>
                 <div className="min-h-12 flex flex-wrap gap-2">
+                  {/* Display black's captured pieces as symbols */}
                   {gameState.capturedPieces.black.map((piece, index) => (
                     <span key={index} className="text-2xl">
                       {getPieceSymbol(piece)}
                     </span>
                   ))}
+                  {/* Show placeholder when no captures */}
                   {gameState.capturedPieces.black.length === 0 && (
                     <span className="text-gray-400 text-sm">
                       No captures yet

@@ -5,18 +5,20 @@ import GameStatus from "./components/GameStatus";
 import RulesModal from "./components/RulesModal";
 
 function App() {
+  // Function to create and return the initial chess board setup
   const initializeBoard = () => {
+    // Create an 8x8 empty board
     const initialBoard = Array(8)
       .fill()
       .map(() => Array(8).fill(null));
 
-    // Set up pawns
+    // Set up pawns for both black (row 1) and white (row 6)
     for (let i = 0; i < 8; i++) {
       initialBoard[1][i] = { type: "pawn", color: "black" };
       initialBoard[6][i] = { type: "pawn", color: "white" };
     }
 
-    // Set up other pieces
+    // Define the order of pieces in the back rank
     const backRankPieces = [
       "rook",
       "knight",
@@ -27,6 +29,8 @@ function App() {
       "knight",
       "rook",
     ];
+
+    // Set up back rank pieces for both black (row 0) and white (row 7)
     for (let i = 0; i < 8; i++) {
       initialBoard[0][i] = { type: backRankPieces[i], color: "black" };
       initialBoard[7][i] = { type: backRankPieces[i], color: "white" };
@@ -35,19 +39,24 @@ function App() {
     return initialBoard;
   };
 
+  // State management for the board and game state
   const [board, setBoard] = React.useState(initializeBoard());
   const [gameState, setGameState] = React.useState({
-    isWhiteTurn: true,
-    status: "playing",
-    selectedPiece: null,
+    isWhiteTurn: true, // Track current turn
+    status: "playing", // Game status (playing, checkmate, stalemate, etc.)
+    selectedPiece: null, // Currently selected piece for movement
     capturedPieces: {
+      // Track captured pieces for both sides
       white: [],
       black: [],
     },
   });
 
+  // Handler for starting a new game
   const handleNewGame = () => {
+    // Reset the board to initial position
     setBoard(initializeBoard());
+    // Reset game state to default values
     setGameState({
       isWhiteTurn: true,
       status: "playing",
@@ -59,7 +68,9 @@ function App() {
     });
   };
 
+  // Handler for piece captures
   const handleCapture = (capturedPiece, capturedBy) => {
+    // Update the captured pieces array for the capturing side
     setGameState((prevState) => ({
       ...prevState,
       capturedPieces: {
