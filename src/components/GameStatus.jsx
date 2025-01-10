@@ -1,56 +1,12 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getPieceSymbol } from "../utils/getPieceSymbol";
+import {
+  calculateMaterialAdvantage,
+  calculateTotalValue,
+} from "../utils/gameStatusHelperFunctions";
 
 function GameStatus({ gameState }) {
-  // Convert piece type to Unicode chess symbol
-  // const getPieceSymbol = (piece) => {
-  //   // Map of piece types to their Unicode symbols for both colors
-  //   const symbols = {
-  //     pawn: piece.color === "white" ? "♙" : "♟",
-  //     knight: piece.color === "white" ? "♘" : "♞",
-  //     bishop: piece.color === "white" ? "♗" : "♝",
-  //     rook: piece.color === "white" ? "♖" : "♜",
-  //     queen: piece.color === "white" ? "♕" : "♛",
-  //     king: piece.color === "white" ? "♔" : "♚",
-  //   };
-  //   return symbols[piece.type];
-  // };
-
-  // Get standard chess piece values for material advantage calculation
-  const getCaptureValue = (piece) => {
-    const values = {
-      pawn: 1,
-      knight: 3,
-      bishop: 3,
-      rook: 5,
-      queen: 9,
-      king: 0, // King's value not counted in material advantage
-    };
-    return values[piece.type];
-  };
-
-  // Calculate the overall material advantage between players
-  const calculateMaterialAdvantage = () => {
-    // Sum up the value of white's captures
-    const whiteCaptureValue = gameState.capturedPieces.white.reduce(
-      (sum, piece) => sum + getCaptureValue(piece),
-      0
-    );
-    // Sum up the value of black's captures
-    const blackCaptureValue = gameState.capturedPieces.black.reduce(
-      (sum, piece) => sum + getCaptureValue(piece),
-      0
-    );
-    // Return the difference (positive means white advantage)
-    return whiteCaptureValue - blackCaptureValue;
-  };
-
-  // Calculate total material value for a set of captured pieces
-  const calculateTotalValue = (pieces) => {
-    return pieces.reduce((sum, piece) => sum + getCaptureValue(piece), 0);
-  };
-
   return (
     <Card className="w-full h-full">
       <CardHeader className="p-4 sm:p-6">
@@ -169,11 +125,13 @@ function GameStatus({ gameState }) {
               {(gameState.capturedPieces.white.length > 0 ||
                 gameState.capturedPieces.black.length > 0) && (
                 <div className="text-center text-sm text-gray-600">
-                  {calculateMaterialAdvantage() !== 0 && (
+                  {calculateMaterialAdvantage(gameState) !== 0 && (
                     <span>
                       Material advantage:{" "}
-                      {calculateMaterialAdvantage() > 0 ? "White" : "Black"}
-                      (+{Math.abs(calculateMaterialAdvantage())})
+                      {calculateMaterialAdvantage(gameState) > 0
+                        ? "White"
+                        : "Black"}
+                      (+{Math.abs(calculateMaterialAdvantage(gameState))})
                     </span>
                   )}
                 </div>
