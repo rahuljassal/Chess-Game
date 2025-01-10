@@ -1,20 +1,21 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getPieceSymbol } from "../utils/getPieceSymbol";
 
 function GameStatus({ gameState }) {
   // Convert piece type to Unicode chess symbol
-  const getPieceSymbol = (piece) => {
-    // Map of piece types to their Unicode symbols for both colors
-    const symbols = {
-      pawn: piece.color === "white" ? "♙" : "♟",
-      knight: piece.color === "white" ? "♘" : "♞",
-      bishop: piece.color === "white" ? "♗" : "♝",
-      rook: piece.color === "white" ? "♖" : "♜",
-      queen: piece.color === "white" ? "♕" : "♛",
-      king: piece.color === "white" ? "♔" : "♚",
-    };
-    return symbols[piece.type];
-  };
+  // const getPieceSymbol = (piece) => {
+  //   // Map of piece types to their Unicode symbols for both colors
+  //   const symbols = {
+  //     pawn: piece.color === "white" ? "♙" : "♟",
+  //     knight: piece.color === "white" ? "♘" : "♞",
+  //     bishop: piece.color === "white" ? "♗" : "♝",
+  //     rook: piece.color === "white" ? "♖" : "♜",
+  //     queen: piece.color === "white" ? "♕" : "♛",
+  //     king: piece.color === "white" ? "♔" : "♚",
+  //   };
+  //   return symbols[piece.type];
+  // };
 
   // Get standard chess piece values for material advantage calculation
   const getCaptureValue = (piece) => {
@@ -100,9 +101,12 @@ function GameStatus({ gameState }) {
                 <div className="min-h-12 flex flex-wrap gap-2">
                   {/* Display white's captured pieces as symbols */}
                   {gameState.capturedPieces.white.map((piece, index) => (
-                    <span key={index} className="text-2xl">
-                      {getPieceSymbol(piece)}
-                    </span>
+                    <img
+                      key={index}
+                      src={getPieceSymbol(piece)}
+                      alt={`${piece.color} ${piece.type}`}
+                      className="w-[30px] object-contain"
+                    />
                   ))}
                   {/* Show placeholder when no captures */}
                   {gameState.capturedPieces.white.length === 0 && (
@@ -127,9 +131,12 @@ function GameStatus({ gameState }) {
                 <div className="min-h-12 flex flex-wrap gap-2">
                   {/* Display black's captured pieces as symbols */}
                   {gameState.capturedPieces.black.map((piece, index) => (
-                    <span key={index} className="text-2xl">
-                      {getPieceSymbol(piece)}
-                    </span>
+                    <img
+                      key={index}
+                      src={getPieceSymbol(piece)}
+                      alt={`${piece.color} ${piece.type}`}
+                      className="w-[30px] object-contain"
+                    />
                   ))}
                   {/* Show placeholder when no captures */}
                   {gameState.capturedPieces.black.length === 0 && (

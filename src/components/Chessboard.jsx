@@ -1,5 +1,6 @@
 import React from "react";
 import { getValidMoves } from "../utils/moveValidation";
+import { getPieceSymbol } from "../utils/getPieceSymbol";
 
 function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
   // State for tracking valid moves for selected piece
@@ -98,13 +99,11 @@ function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
                   onClick={() => handleSquareClick(rowIndex, colIndex)}
                 >
                   {piece && (
-                    <div
-                      className={`text-2xl sm:text-3xl md:text-4xl ${
-                        piece.color === "white" ? "text-white" : "text-black"
-                      }`}
-                    >
-                      {getPieceSymbol(piece.type)}
-                    </div>
+                    <img
+                      src={getPieceSymbol(piece)}
+                      alt={`${piece.color} ${piece.type}`}
+                      className="w-full h-full object-contain"
+                    />
                   )}
                 </div>
               );
@@ -114,18 +113,6 @@ function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
       </div>
     </div>
   );
-}
-
-function getPieceSymbol(type) {
-  const symbols = {
-    king: "♔",
-    queen: "♕",
-    rook: "♖",
-    bishop: "♗",
-    knight: "♘",
-    pawn: "♙",
-  };
-  return symbols[type];
 }
 
 export default Chessboard;
