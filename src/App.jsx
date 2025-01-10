@@ -5,17 +5,49 @@ import GameStatus from "./components/GameStatus";
 import RulesModal from "./components/RulesModal";
 
 function App() {
+  const initializeBoard = () => {
+    const initialBoard = Array(8)
+      .fill()
+      .map(() => Array(8).fill(null));
+
+    // Set up pawns
+    for (let i = 0; i < 8; i++) {
+      initialBoard[1][i] = { type: "pawn", color: "black" };
+      initialBoard[6][i] = { type: "pawn", color: "white" };
+    }
+
+    // Set up other pieces
+    const backRankPieces = [
+      "rook",
+      "knight",
+      "bishop",
+      "queen",
+      "king",
+      "bishop",
+      "knight",
+      "rook",
+    ];
+    for (let i = 0; i < 8; i++) {
+      initialBoard[0][i] = { type: backRankPieces[i], color: "black" };
+      initialBoard[7][i] = { type: backRankPieces[i], color: "white" };
+    }
+
+    return initialBoard;
+  };
+
+  const [board, setBoard] = React.useState(initializeBoard());
   const [gameState, setGameState] = React.useState({
     isWhiteTurn: true,
-    status: "playing", // 'playing', 'check', 'checkmate', 'stalemate'
+    status: "playing",
     selectedPiece: null,
     capturedPieces: {
-      white: [], // pieces captured by white
-      black: [], // pieces captured by black
+      white: [],
+      black: [],
     },
   });
 
   const handleNewGame = () => {
+    setBoard(initializeBoard());
     setGameState({
       isWhiteTurn: true,
       status: "playing",
@@ -53,6 +85,8 @@ function App() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
             <Chessboard
+              board={board}
+              setBoard={setBoard}
               gameState={gameState}
               setGameState={setGameState}
               onCapture={handleCapture}

@@ -1,39 +1,9 @@
 import React from "react";
 import { getValidMoves } from "../utils/moveValidation";
 
-function Chessboard({ gameState, setGameState, onCapture }) {
-  const [board, setBoard] = React.useState(initializeBoard());
+function Chessboard({ board, setBoard, gameState, setGameState, onCapture }) {
   const [validMoves, setValidMoves] = React.useState([]);
   const boardRef = React.useRef(null);
-  function initializeBoard() {
-    const initialBoard = Array(8)
-      .fill()
-      .map(() => Array(8).fill(null));
-
-    // Set up pawns
-    for (let i = 0; i < 8; i++) {
-      initialBoard[1][i] = { type: "pawn", color: "black" };
-      initialBoard[6][i] = { type: "pawn", color: "white" };
-    }
-
-    // Set up other pieces
-    const backRankPieces = [
-      "rook",
-      "knight",
-      "bishop",
-      "queen",
-      "king",
-      "bishop",
-      "knight",
-      "rook",
-    ];
-    for (let i = 0; i < 8; i++) {
-      initialBoard[0][i] = { type: backRankPieces[i], color: "black" };
-      initialBoard[7][i] = { type: backRankPieces[i], color: "white" };
-    }
-
-    return initialBoard;
-  }
 
   const handleSquareClick = (row, col) => {
     const piece = board[row][col];
